@@ -43,7 +43,7 @@ void CTileConstruction::Update(double elapsed)
 		case Mine:
 		{
 			mDuration += elapsed;
-			if (mDuration > 3){
+			if (mDuration > 2){
 				mDuration = 0;
 				if (mAscending)
 					mCount++;
@@ -92,7 +92,7 @@ void CTileConstruction::Update(double elapsed)
 		case Clearing:
 		{
 			mDuration += elapsed;
-			if (mDuration > 3){
+			if (mDuration > 2){
 				mCount++;
 				mDuration = 0;
 				switch (mCount)

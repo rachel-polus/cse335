@@ -36,7 +36,16 @@ const int InitialX = CCity::GridSpacing * 5;
 const int InitialY = CCity::GridSpacing * 3;
 
 /// Edge margin for objects in pixels
-const int EdgeMargin = 5;
+unsigned const int EdgeMargin = 5;
+
+/// Magnifier margin for navigation in pixels
+const int Magnifier = 46;
+
+/// Max scale
+const double MaxScale = 4;
+
+/// Min scale
+const double MinScale = 0.25;
 
 /**
  * Constructor
@@ -194,9 +203,12 @@ void CChildView::OnPaint()
 
 	graphics.DrawImage(mNavigation.get(), mNavLeft, EdgeMargin,
 		mNavigation->GetWidth(), mNavigation->GetHeight());
-    /*
-     * Actually Draw the city
-     */
+
+	/* Set scale */
+	graphics.SetPageUnit(UnitPixel);
+	graphics.SetPageScale(mScale);
+
+    /* Actually Draw the city */
     mCity.OnDraw(&graphics);
 	Pen pen1(Color::Green, 2);
 	Pen pen2(Color::Red, 2);
@@ -272,7 +284,20 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 */
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	if (point.x > mNavLeft && point.y < mNavTop){
+	if (point.x > mNavLeft && point.x < mNavLeft + Magnifier &&
+		point.y > EdgeMargin && (unsigned)point.y < EdgeMargin + mNavigation->GetHeight() / 2)
+	{
+		if (mScale<MaxScale)
+			mScale *= 2;
+	}
+	else if (point.x > mNavLeft && point.x < mNavLeft + Magnifier &&
+		(unsigned)point.y > EdgeMargin + mNavigation->GetHeight() / 2 &&
+		(unsigned)point.y < EdgeMargin + mNavigation->GetHeight())
+	{
+		if (mScale>MinScale)
+			mScale /= 2;
+	}
+	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop){
 		mNav = !mNav;
 		if (mNav){
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
@@ -288,7 +313,6 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 				AfxMessageBox(L"Failed to open images/nav1.png");
 			}
 		}
-		Invalidate();
 	}
 	else{
 		mGrabbedItem = mCity.HitTest(point.x, point.y);
@@ -307,43 +331,36 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 */
 void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	if (mNav)
+	// See if an item is currently being moved by the mouse
+	if (mGrabbedItem != nullptr)
 	{
-		//
-	}
-	else
-	{
-		// See if an item is currently being moved by the mouse
-		if (mGrabbedItem != nullptr)
+		// If an item is being moved, we only continue to 
+		// move it while the left button is down.
+		if (nFlags & MK_LBUTTON)
 		{
-			// If an item is being moved, we only continue to 
-			// move it while the left button is down.
-			if (nFlags & MK_LBUTTON)
+			mGrabbedItem->SetLocation(point.x, point.y);
+		}
+		else
+		{
+			// When the left button is released we release
+			// the item. If we release it on the trashcan,
+			// delete it.
+			if (point.x < mTrashcanRight && point.y > mTrashcanTop)
 			{
-				mGrabbedItem->SetLocation(point.x, point.y);
+				// We have clicked on the trash can
+				mCity.DeleteItem(mGrabbedItem);
 			}
 			else
 			{
-				// When the left button is released we release
-				// the item. If we release it on the trashcan,
-				// delete it.
-				if (point.x < mTrashcanRight && point.y > mTrashcanTop)
-				{
-					// We have clicked on the trash can
-					mCity.DeleteItem(mGrabbedItem);
-				}
-				else
-				{
-					mGrabbedItem->QuantizeLocation();
-				}
-
-				mCity.SortTiles();
-				mGrabbedItem = nullptr;
+				mGrabbedItem->QuantizeLocation();
 			}
 
-			// Force the screen to redraw
-			Invalidate();
+			mCity.SortTiles();
+			mGrabbedItem = nullptr;
 		}
+
+		// Force the screen to redraw
+		Invalidate();
 	}
 }
 
