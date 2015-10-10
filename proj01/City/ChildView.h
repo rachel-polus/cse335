@@ -64,7 +64,7 @@ private:
 	std::unique_ptr<Gdiplus::Bitmap> mNavigation; ///< Navigation image to use
 	int mNavTop = 0;             ///< Top line of the navigation in pixels
 	int mNavLeft = 0;            ///< Left side of the navigation in pixels
-	bool mNav = true;            ///< Nav1/Nav2 contraller
+	bool mNav = false;            ///< Contraller of Navigation
 
 	/// The zone type we are trying to find
 	CTile::Zonings mZoning = CTile::Zonings::NONE;

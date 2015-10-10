@@ -275,17 +275,17 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	if (point.x > mNavLeft && point.y < mNavTop){
 		mNav = !mNav;
 		if (mNav){
-			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
-			if (mNavigation->GetLastStatus() != Ok)
-			{
-				AfxMessageBox(L"Failed to open images/nav1.png");
-			}
-		}
-		else{
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
 			if (mNavigation->GetLastStatus() != Ok)
 			{
 				AfxMessageBox(L"Failed to open images/nav2.png");
+			}
+		}
+		else{
+			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+			if (mNavigation->GetLastStatus() != Ok)
+			{
+				AfxMessageBox(L"Failed to open images/nav1.png");
 			}
 		}
 		Invalidate();
@@ -307,37 +307,44 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 */
 void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
-    // See if an item is currently being moved by the mouse
-    if (mGrabbedItem != nullptr)
-    {
-        // If an item is being moved, we only continue to 
-        // move it while the left button is down.
-        if (nFlags & MK_LBUTTON)
-        {
-            mGrabbedItem->SetLocation(point.x, point.y);
-        }
-        else
-        {
-            // When the left button is released we release
-            // the item. If we release it on the trashcan,
-            // delete it.
-            if (point.x < mTrashcanRight && point.y > mTrashcanTop)
-            {
-                // We have clicked on the trash can
-                mCity.DeleteItem(mGrabbedItem);
-            }
-            else
-            {
-                mGrabbedItem->QuantizeLocation();
-            }
+	if (mNav)
+	{
+		//
+	}
+	else
+	{
+		// See if an item is currently being moved by the mouse
+		if (mGrabbedItem != nullptr)
+		{
+			// If an item is being moved, we only continue to 
+			// move it while the left button is down.
+			if (nFlags & MK_LBUTTON)
+			{
+				mGrabbedItem->SetLocation(point.x, point.y);
+			}
+			else
+			{
+				// When the left button is released we release
+				// the item. If we release it on the trashcan,
+				// delete it.
+				if (point.x < mTrashcanRight && point.y > mTrashcanTop)
+				{
+					// We have clicked on the trash can
+					mCity.DeleteItem(mGrabbedItem);
+				}
+				else
+				{
+					mGrabbedItem->QuantizeLocation();
+				}
 
-            mCity.SortTiles();
-            mGrabbedItem = nullptr;
-        }
+				mCity.SortTiles();
+				mGrabbedItem = nullptr;
+			}
 
-        // Force the screen to redraw
-        Invalidate();
-    }
+			// Force the screen to redraw
+			Invalidate();
+		}
+	}
 }
 
 /**
