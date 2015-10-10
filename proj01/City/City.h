@@ -12,7 +12,6 @@
 #include <vector>
 #include <map>
 #include <utility>
-
 #include "XmlNode.h"
 #include "Tile.h"
 

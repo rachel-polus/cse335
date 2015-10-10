@@ -118,6 +118,7 @@ BEGIN
             MENUITEM "&Agricultura tile",           ID_TILE_AGRICULTURATILE
             MENUITEM "&Industrial tile",            ID_TILE_INDUSTRIALTILE
             MENUITEM "&Residential tile",           ID_TILE_RESIDENTIALTILE
+            MENUITEM "Grass",                       ID_TILE_GRASS
         END
     END
     POPUP "&Landscaping"

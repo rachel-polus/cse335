@@ -103,5 +103,7 @@ public:
 	afx_msg void OnBusinessesHaulcoal();
 	afx_msg void OnBusinessesTrump();
 	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
+	afx_msg void OnTileGrass();
+	afx_msg void OnUpdateTileGrass(CCmdUI *pCmdUI);
 };
 

@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include <algorithm>
-
 #include "City.h"
 #include "Tile.h"
 #include "TileLandscape.h"
 #include "TileBuilding.h"
 #include "TileRoad.h"
 #include "TileCoalmine.h"
+#include "TileConstruction.h"
 
 using namespace std;
 using namespace xmlnode;
@@ -195,6 +195,10 @@ void CCity::XmlTile(const std::shared_ptr<CXmlNode> &node)
     {
         tile = make_shared<CTileCoalmine>(this);
     }
+	else if (type == L"grass")
+	{
+		tile = make_shared<CTileConstruction>(this);
+	}
 
     if (tile != nullptr)
     {

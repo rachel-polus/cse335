@@ -16,6 +16,7 @@
 #include "TileRoad.h"
 #include "TileCoalmine.h"
 #include "BuildingCounter.h"
+#include "TileConstruction.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -99,10 +100,10 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_BUSINESSES_HAULCOAL, &CChildView::OnBusinessesHaulcoal)
 	ON_COMMAND(ID_BUSINESSES_TRUMP, &CChildView::OnBusinessesTrump)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
+	ON_COMMAND(ID_TILE_GRASS, &CChildView::OnTileGrass)
+	ON_UPDATE_COMMAND_UI(ID_TILE_GRASS, &CChildView::OnUpdateTileGrass)
 END_MESSAGE_MAP()
 /// \endcond
-
-
 
 /** 
 * This function is called before the window is created.
@@ -182,13 +183,16 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
      * Actually Draw the city
      */
     mCity.OnDraw(&graphics);
-	Pen pen(Color::Green, 2);
+	Pen pen1(Color::Green, 2);
+	Pen pen2(Color::Red, 2);
 	for (auto tile : mCity.GetZoning(mZoning))
 	{
-		tile->DrawBorder(&graphics, &pen);
+		if (tile->GetZoning() != CTile::Zonings::GRASS)
+			tile->DrawBorder(&graphics, &pen1);
+		else
+			tile->DrawBorder(&graphics, &pen2);
 	}
 }
-
 
 /**
 * \brief Erase the background prior to drawing.
@@ -217,12 +221,19 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
         // We double-clicked on a tile
         // Bring up the tile editing dialog box
         tile->PropertiesDlg();
+		if (tile->GetZoning() == CTile::Zonings::GRASS){
+			mCity.DeleteItem(tile);
+			auto tile = make_shared<CTileConstruction>(&mCity);
+			tile->SetImage(L"grass.png");
+			tile->SetLocation(point.x, point.y);
+			tile->SetZoning(CTile::Zonings::GRASS);
+			mCity.Add(tile);
+		}
+		OnLButtonDown(nFlags, point);
         Invalidate();
     }
 
 }
-
-
 
 /** \brief Called when there is a left mouse button press
 * \param nFlags Flags associated with the mouse button press
@@ -254,8 +265,6 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	OnMouseMove(nFlags, point);
 }
-
-
 
 /** \brief Called when the mouse is moved
 * \param nFlags Flags associated with the mouse movement
@@ -306,8 +315,6 @@ void CChildView::OnTimer(UINT_PTR nIDEvent)
     CWnd::OnTimer(nIDEvent);
 }
 
-
-
 /**
 * \brief Handler for the File/Save As menu option
 */
@@ -325,7 +332,6 @@ void CChildView::OnFileSaveas()
 
     mCity.Save(filename);
 }
-
 
 /** \brief This function is called when an File Open menu item is selected.
 *
@@ -345,8 +351,6 @@ void CChildView::OnFileOpen()
     mCity.Load(filename);
     Invalidate();
 }
-
-
 
 /**
  * \brief Add a CTileBuilding tile to the drawing.
@@ -412,60 +416,50 @@ void CChildView::OnLandscapingTallgrass()
     AddLandscape(L"tallgrass.png");
 }
 
-
 void CChildView::OnBuildingsBrownhouse()
 {
     AddBuilding(L"house.png");
 }
-
 
 void CChildView::OnBuildingsYellowhouse()
 {
     AddBuilding(L"yellowhouse.png");
 }
 
-
 void CChildView::OnBuildingsF()
 {
     AddBuilding(L"firestation.png");
 }
-
 
 void CChildView::OnBuildingsHospital()
 {
     AddBuilding(L"hospital.png");
 }
 
-
 void CChildView::OnBuildingsMarket()
 {
     AddBuilding(L"market.png");
 }
-
 
 void CChildView::OnBuildingsCondos()
 {
     AddBuilding(L"condos.png");
 }
 
-
 void CChildView::OnLandscapingTree()
 {
     AddLandscape(L"tree.png");
 }
-
 
 void CChildView::OnLandscapingTrees()
 {
     AddLandscape(L"tree2.png");
 }
 
-
 void CChildView::OnLandscapingBigtrees()
 {
     AddLandscape(L"tree3.png");
 }
-
 
 void CChildView::OnLandscapingRoad()
 {
@@ -474,7 +468,6 @@ void CChildView::OnLandscapingRoad()
     mCity.Add(tile);
     Invalidate();
 }
-
 
 void CChildView::OnBusinessesCoalmine()
 {
@@ -579,5 +572,19 @@ void CChildView::OnBusinessesTrump()
 void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mCity.TrumpActive());
+	pCmdUI->Enable(true);
+}
+
+/** Menu handler for tile */
+void CChildView::OnTileGrass()
+{
+	mZoning = CTile::Zonings::GRASS;
+}
+
+/** Menu tracker for tile
+* \param pCmdUI user-interface pointer*/
+void CChildView::OnUpdateTileGrass(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(mZoning == CTile::Zonings::GRASS);
 	pCmdUI->Enable(true);
 }

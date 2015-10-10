@@ -194,6 +194,6 @@ void CTile::PropertiesDlg()
     if (dlg.DoModal() == IDOK)
     {
         mZoning = dlg.GetZoning();
+
     }
 }
-

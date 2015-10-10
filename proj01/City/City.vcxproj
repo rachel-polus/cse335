@@ -108,6 +108,7 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileBuilding.h" />
     <ClInclude Include="TileCoalmine.h" />
+    <ClInclude Include="TileConstruction.h" />
     <ClInclude Include="TileLandscape.h" />
     <ClInclude Include="TilePropertiesDlg.h" />
     <ClInclude Include="TileRoad.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileBuilding.cpp" />
     <ClCompile Include="TileCoalmine.cpp" />
+    <ClCompile Include="TileConstruction.cpp" />
     <ClCompile Include="TileLandscape.cpp" />
     <ClCompile Include="TilePropertiesDlg.cpp" />
     <ClCompile Include="TileRoad.cpp" />

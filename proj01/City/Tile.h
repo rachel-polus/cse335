@@ -25,7 +25,9 @@ public:
     enum Zonings {NONE=0,   ///< No current zoning
         RESIDENTIAL=1,      ///< Residential zoning
         INDUSTRIAL=2,       ///< Industrial zoning
-        AGRICULTURAL=3};    ///< Agricultural zoning
+        AGRICULTURAL=3,     ///< Agricultural zoning
+		GRASS=4             ///< Potential construction zoning
+	};
 
     /** The directory were the images are stored */
     static const std::wstring ImagesDirectory;
@@ -122,6 +124,8 @@ public:
 	/** Accept a hitvisitor
 	* \param visitor The visitor we accept */
 	virtual void HitAccept(CTileVisitor *visitor) = 0;
+
+	void Construction(double elapsed);
 protected:
     CTile(CCity *city);
 
