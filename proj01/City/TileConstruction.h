@@ -15,6 +15,7 @@
 class CTileConstruction : public CTile
 {
 public:
+	/** Constructor*/
 	CTileConstruction(CCity *city);
 
 	/// \brief Default constructor (disabled)
@@ -24,7 +25,7 @@ public:
 	CTileConstruction(const CTileConstruction &) = delete;
 
 	/** Destructor*/
-	virtual ~CTileConstruction();
+	virtual ~CTileConstruction(){}
 
 	virtual std::shared_ptr<xmlnode::CXmlNode>
 		XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;

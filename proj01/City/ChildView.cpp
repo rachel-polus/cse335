@@ -35,8 +35,8 @@ const int InitialX = CCity::GridSpacing * 5;
 /// Initial tile Y location
 const int InitialY = CCity::GridSpacing * 3;
 
-/// Margin of trashcan from side and bottom in pixels
-const int TrashcanMargin = 5;
+/// Edge margin for objects in pixels
+const int EdgeMargin = 5;
 
 /**
  * Constructor
@@ -51,6 +51,13 @@ CChildView::CChildView()
     {
         AfxMessageBox(L"Failed to open images/trashcan.png");
     }
+
+	// Load the navigation image
+	mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+	if (mNavigation->GetLastStatus() != Ok)
+	{
+		AfxMessageBox(L"Failed to open images/nav1.png");
+	}
 }
 
 /**
@@ -129,7 +136,8 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 * This function is called in response to a drawing message
 * whenever we need to redraw the window on the screen.
 * It is responsible for painting the window.
-*/void CChildView::OnPaint()
+*/
+void CChildView::OnPaint()
 {
     CPaintDC paintDC(this);     // device context for painting
     CDoubleBufferDC dc(&paintDC); // device context for painting
@@ -173,12 +181,19 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
      */
     
     // Bottom minus image size minus margin is top of the image
-    mTrashcanTop = rect.Height() - mTrashcan->GetHeight() - TrashcanMargin;
-    mTrashcanRight = TrashcanMargin + mTrashcan->GetWidth();
+    mTrashcanTop = rect.Height() - mTrashcan->GetHeight() - EdgeMargin;
+    mTrashcanRight = EdgeMargin + mTrashcan->GetWidth();
 
-    graphics.DrawImage(mTrashcan.get(), TrashcanMargin, mTrashcanTop,
+    graphics.DrawImage(mTrashcan.get(), EdgeMargin, mTrashcanTop,
         mTrashcan->GetWidth(), mTrashcan->GetHeight());
 
+	/* Draw the navigation */
+	// Bottom minus image size minus margin is top of the image
+	mNavTop = mNavigation->GetHeight() + EdgeMargin;
+	mNavLeft = rect.Width() - mNavigation->GetWidth() - EdgeMargin;
+
+	graphics.DrawImage(mNavigation.get(), mNavLeft, EdgeMargin,
+		mNavigation->GetWidth(), mNavigation->GetHeight());
     /*
      * Actually Draw the city
      */
@@ -257,13 +272,33 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 */
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	mGrabbedItem = mCity.HitTest(point.x, point.y);
-	if (mGrabbedItem != nullptr && mCity.TrumpActive())
-	{
-		CBuildingCounter agent;
-		mGrabbedItem->HitAccept(&agent);
+	if (point.x > mNavLeft && point.y < mNavTop){
+		mNav = !mNav;
+		if (mNav){
+			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+			if (mNavigation->GetLastStatus() != Ok)
+			{
+				AfxMessageBox(L"Failed to open images/nav1.png");
+			}
+		}
+		else{
+			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
+			if (mNavigation->GetLastStatus() != Ok)
+			{
+				AfxMessageBox(L"Failed to open images/nav2.png");
+			}
+		}
+		Invalidate();
 	}
-	OnMouseMove(nFlags, point);
+	else{
+		mGrabbedItem = mCity.HitTest(point.x, point.y);
+		if (mGrabbedItem != nullptr && mCity.TrumpActive())
+		{
+			CBuildingCounter agent;
+			mGrabbedItem->HitAccept(&agent);
+		}
+		OnMouseMove(nFlags, point);
+	}
 }
 
 /** \brief Called when the mouse is moved

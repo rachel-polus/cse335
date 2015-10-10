@@ -40,7 +40,6 @@ CTile::CTile(CCity *city) : mCity(city)
 {
 }
 
-
 /**
 * \brief Destructor
 */
@@ -152,14 +151,29 @@ void CTile::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 }
 
 /**
- * \brief Force the tile to a regular grid by forcing the values to be multiples of 32.
- */
+* \brief Force the tile to a regular grid by
+* forcing the values to be multiples of CCity::GridSpacing (32)
+*/
 void CTile::QuantizeLocation()
 {
-    int spacing = CCity::GridSpacing;
-    int x = mX;
-    mX = ((mX + spacing / 2) / spacing) * spacing;
-    mY = ((mY + spacing / 2) / spacing) * spacing;
+	int spacing = CCity::GridSpacing;
+	if (mX < 0)
+	{
+		mX = ((mX + spacing / 2) / spacing) * spacing - spacing;
+	}
+	else
+	{
+		mX = ((mX + spacing / 2) / spacing) * spacing;
+	}
+
+	if (mY < 0)
+	{
+		mY = ((mY + spacing / 2) / spacing) * spacing - spacing;
+	}
+	else
+	{
+		mY = ((mY + spacing / 2) / spacing) * spacing;
+	}
 }
 
 /**

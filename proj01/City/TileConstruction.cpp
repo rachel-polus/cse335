@@ -7,19 +7,14 @@
 #include "stdafx.h"
 #include "TileConstruction.h"
 
-CTileConstruction::CTileConstruction(CCity *city) : CTile(city){
-	SetImage(L"grass.png");
-}
-
-CTileConstruction::~CTileConstruction()
-{
-}
+CTileConstruction::CTileConstruction(CCity *city) : CTile(city){SetImage(L"grass.png");}
 
 /** \brief Save this item to an XML node
 * \param node The node we are going to be a child of
 * \returns Allocated node
 */
-std::shared_ptr<xmlnode::CXmlNode> CTileConstruction::XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node)
+std::shared_ptr<xmlnode::CXmlNode>
+CTileConstruction::XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node)
 {
 	auto itemNode = CTile::XmlSave(node);
 	itemNode->SetAttribute(L"type", L"grass");

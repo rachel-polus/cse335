@@ -100,6 +100,7 @@
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="City.h" />
     <ClInclude Include="CityApp.h" />
+    <ClInclude Include="CityView.h" />
     <ClInclude Include="DoubleBufferDC.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="City.cpp" />
     <ClCompile Include="CityApp.cpp" />
+    <ClCompile Include="CityView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
