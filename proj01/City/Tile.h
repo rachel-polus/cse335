@@ -125,6 +125,8 @@ public:
 	* \param visitor The visitor we accept */
 	virtual void HitAccept(CTileVisitor *visitor) = 0;
 
+	/** Construct on grass
+	*\param elapsed The time since the last update */
 	void Construction(double elapsed);
 protected:
     CTile(CCity *city);
@@ -146,4 +148,3 @@ private:
     /// Any zoning for this property
     Zonings mZoning = NONE;
 };
-

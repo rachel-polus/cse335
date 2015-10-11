@@ -42,13 +42,17 @@
 #define ID_BUSINESSES_HAULCOAL          32800
 #define ID_BUSINESSES_TRUMP             32801
 #define ID_TILE_GRASS                   32802
+#define ID_STATISTICS_TOTALTILES        32803
+#define ID_Menu                         32804
+#define ID_STATISTICS_FULLYOVERLAPPINGCOUNT 32805
+#define ID_STATISTICS_PARTIALLYOVERLAPPINGCOUNT 32806
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        317
-#define _APS_NEXT_COMMAND_VALUE         32803
+#define _APS_NEXT_COMMAND_VALUE         32807
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

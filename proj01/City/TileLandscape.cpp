@@ -11,14 +11,12 @@ using namespace std;
 using namespace Gdiplus;
 
 /** Constructor
-* \param city The city this is a member of
-*/
+* \param city The city this is a member of */
 CTileLandscape::CTileLandscape(CCity *city) : CTile(city)
 {
 }
 
-/** Destructor
-*/
+/** Destructor */
 CTileLandscape::~CTileLandscape()
 {
 }

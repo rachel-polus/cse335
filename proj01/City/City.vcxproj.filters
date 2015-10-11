@@ -69,9 +69,6 @@
     <ClInclude Include="TileConstruction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CityView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -117,9 +114,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TileConstruction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CityView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

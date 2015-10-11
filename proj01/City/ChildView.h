@@ -61,12 +61,16 @@ private:
     int mTrashcanTop = 0;           ///< Top line of the trashcan in pixels
     int mTrashcanRight = 0;         ///< Right side of the trashcan in pixels
 
-	std::unique_ptr<Gdiplus::Bitmap> mNavigation; ///< Navigation image to use
-	int mNavTop = 0;             ///< Top line of the navigation in pixels
-	int mNavLeft = 0;            ///< Left side of the navigation in pixels
-	bool mNav = false;           ///< Contraller of Navigation
+	std::unique_ptr<Gdiplus::Bitmap> mNavigation;	///< Navigation image to use
+	int mNavTop = 0;	///< Top line of the navigation in pixels
+	int mNavLeft = 0;	///< Left side of the navigation in pixels
+	bool mNav = false;	///< Contraller of Navigation
 
-	double mScale = 1;          ///< Scale factor of City
+	double mScale = 1;	///< Scale factor of City
+
+	/* Mouse recoder */
+	int mMouseX = 0;	///< Mouse recoder
+	int mMouseY = 0;	///< Mouse recoder
 
 	/// The zone type we are trying to find
 	CTile::Zonings mZoning = CTile::Zonings::NONE;
@@ -78,7 +82,6 @@ public:
     afx_msg void OnTimer(UINT_PTR nIDEvent);
     afx_msg void OnFileOpen();
     afx_msg void OnFileSaveas();
-
     /** \cond */
     afx_msg void OnBuildingsFarmhouse();
     afx_msg void OnLandscapingGrass();
@@ -112,5 +115,7 @@ public:
 	afx_msg void OnUpdateBusinessesTrump(CCmdUI *pCmdUI);
 	afx_msg void OnTileGrass();
 	afx_msg void OnUpdateTileGrass(CCmdUI *pCmdUI);
+	afx_msg void OnStatisticsTotaltiles();
+	afx_msg void OnStatisticsPartiallyoverlappingcount();
+	afx_msg void OnStatisticsFullyoverlappingcount();
 };
-

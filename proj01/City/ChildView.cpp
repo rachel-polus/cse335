@@ -28,7 +28,6 @@ using namespace std;
 /// Frame duration in milliseconds
 const int FrameDuration = 100;
 
-
 /// Initial tile X location
 const int InitialX = CCity::GridSpacing * 5;
 
@@ -118,6 +117,9 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_BUSINESSES_TRUMP, &CChildView::OnUpdateBusinessesTrump)
 	ON_COMMAND(ID_TILE_GRASS, &CChildView::OnTileGrass)
 	ON_UPDATE_COMMAND_UI(ID_TILE_GRASS, &CChildView::OnUpdateTileGrass)
+	ON_COMMAND(ID_STATISTICS_TOTALTILES, &CChildView::OnStatisticsTotaltiles)
+	ON_COMMAND(ID_STATISTICS_PARTIALLYOVERLAPPINGCOUNT, &CChildView::OnStatisticsPartiallyoverlappingcount)
+	ON_COMMAND(ID_STATISTICS_FULLYOVERLAPPINGCOUNT, &CChildView::OnStatisticsFullyoverlappingcount)
 END_MESSAGE_MAP()
 /// \endcond
 
@@ -268,14 +270,21 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 */
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-    mGrabbedItem = mCity.HitTest(point.x, point.y);
-    if (mGrabbedItem != nullptr)
-    {
-        // We grabbed something
-        // Move it to the front
-        mCity.MoveToFront(mGrabbedItem);
-        Invalidate();
-    }
+	if (mNav)
+	{
+		mMouseX = point.x; mMouseY = point.y;
+	}
+	else
+	{
+		mGrabbedItem = mCity.HitTest(point.x, point.y);
+		if (mGrabbedItem != nullptr)
+		{
+			// We grabbed something
+			// Move it to the front
+			mCity.MoveToFront(mGrabbedItem);
+			Invalidate();
+		}
+	}
 }
 
 /** \brief Called when the left mouse button is released
@@ -294,11 +303,13 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 		(unsigned)point.y > EdgeMargin + mNavigation->GetHeight() / 2 &&
 		(unsigned)point.y < EdgeMargin + mNavigation->GetHeight())
 	{
-		if (mScale>MinScale)
+		if (mScale > MinScale)
 			mScale /= 2;
 	}
 	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop){
 		mNav = !mNav;
+		for (auto tile : mCity)
+			tile->QuantizeLocation();
 		if (mNav){
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
 			if (mNavigation->GetLastStatus() != Ok)
@@ -334,33 +345,46 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	// See if an item is currently being moved by the mouse
 	if (mGrabbedItem != nullptr)
 	{
-		// If an item is being moved, we only continue to 
-		// move it while the left button is down.
-		if (nFlags & MK_LBUTTON)
+		if (mNav)
 		{
-			mGrabbedItem->SetLocation(point.x, point.y);
+			if (nFlags & MK_LBUTTON)
+			{
+				for (auto tile : mCity)
+					tile->SetLocation(tile->GetX() + (point.x - mMouseX),
+					tile->GetY() + (point.y - mMouseY));
+				mMouseX = point.x; mMouseY = point.y;
+			}
 		}
 		else
 		{
-			// When the left button is released we release
-			// the item. If we release it on the trashcan,
-			// delete it.
-			if (point.x < mTrashcanRight && point.y > mTrashcanTop)
+			// If an item is being moved, we only continue to 
+			// move it while the left button is down.
+			if (nFlags & MK_LBUTTON)
 			{
-				// We have clicked on the trash can
-				mCity.DeleteItem(mGrabbedItem);
+				mGrabbedItem->SetLocation(point.x, point.y);
 			}
 			else
 			{
-				mGrabbedItem->QuantizeLocation();
+				// When the left button is released we release
+				// the item. If we release it on the trashcan,
+				// delete it.
+				if (point.x < mTrashcanRight && point.y > mTrashcanTop)
+				{
+					// We have clicked on the trash can
+					mCity.DeleteItem(mGrabbedItem);
+				}
+				else
+				{
+					mGrabbedItem->QuantizeLocation();
+				}
+
+				mCity.SortTiles();
+				mGrabbedItem = nullptr;
 			}
 
-			mCity.SortTiles();
-			mGrabbedItem = nullptr;
+			// Force the screen to redraw
+			Invalidate();
 		}
-
-		// Force the screen to redraw
-		Invalidate();
 	}
 }
 
@@ -646,4 +670,89 @@ void CChildView::OnUpdateTileGrass(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::GRASS);
 	pCmdUI->Enable(true);
+}
+
+/** Menu handler for total tiles count */
+void CChildView::OnStatisticsTotaltiles()
+{
+	int cnt(0);
+	for (auto tile : mCity)
+		cnt++;
+	wstringstream str;
+	str << L"The total tiles is " << cnt;
+	AfxMessageBox(str.str().c_str());
+}
+
+/** Menu handler for Partially overlapping count */
+void CChildView::OnStatisticsPartiallyoverlappingcount()
+{
+	int cnt(0),w(64),h(32);
+	std::vector<std::shared_ptr<CTile> > v1, v2;
+	for (auto tile : mCity)
+		v1.push_back(tile);
+	v2 = v1;
+	for (unsigned i = 0; i < v1.size() - 1; i++)
+		if ((v1[i]->GetX() + w == v2[i + 1]->GetX() &&
+			v1[i]->GetX() == v2[i + 1]->GetX() - w &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			(v1[i]->GetX() - w == v2[i + 1]->GetX() &&
+			v1[i]->GetX() == v2[i + 1]->GetX() + w &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			(v1[i]->GetX() + h == v2[i + 1]->GetX() &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			(v1[i]->GetX() == v2[i + 1]->GetX() + h &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			(v1[i]->GetX() == v2[i + 1]->GetX() + h &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			(v1[i]->GetX() + h == v2[i + 1]->GetX() &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			(v1[i]->GetY() + h == v2[i + 1]->GetY() &&
+			v1[i]->GetY() == v2[i + 1]->GetY() - h &&
+			v1[i]->GetX() == v2[i + 1]->GetX()) ||
+			(v1[i]->GetY() - h == v2[i + 1]->GetY() &&
+			v1[i]->GetY() == v2[i + 1]->GetY() + h) &&
+			v1[i]->GetX() == v2[i + 1]->GetX())
+			cnt++;
+	if ((v1[0]->GetX() + w == v2[v1.size() - 1]->GetX() &&
+		v1[0]->GetX() == v2[v1.size() - 1]->GetX() - w &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		(v1[0]->GetX() - w == v2[v1.size() - 1]->GetX() &&
+		v1[0]->GetX() == v2[v1.size() - 1]->GetX() + w &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		(v1[0]->GetX() + h == v2[v1.size() - 1]->GetX() &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		(v1[0]->GetX() == v2[v1.size() - 1]->GetX() + h &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		(v1[0]->GetX() == v2[v1.size() - 1]->GetX() + h &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		(v1[0]->GetX() + h == v2[v1.size() - 1]->GetX() &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		(v1[0]->GetY() + h == v2[v1.size() - 1]->GetY() &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY() - h &&
+		v1[0]->GetX() == v2[v1.size() - 1]->GetX()) ||
+		(v1[0]->GetY() - h == v2[v1.size() - 1]->GetY() &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY() + h) &&
+		v1[0]->GetX() == v2[v1.size() - 1]->GetX())
+		cnt++;
+	wstringstream str;
+	str << L"There are " << cnt << L" partially overlapping tiles";
+	AfxMessageBox(str.str().c_str());
+}
+
+/** Menu handler for fully overlapping count */
+void CChildView::OnStatisticsFullyoverlappingcount()
+{
+	int cnt(0);
+	std::vector<std::shared_ptr<CTile> > v1,v2;
+	for (auto tile : mCity)
+		v1.push_back(tile);
+	v2 = v1;
+	for (unsigned i = 0; i < v1.size()-1; i++)
+		if (v1[i]->GetX() == v2[i + 1]->GetX() && v1[i]->GetY() == v2[i + 1]->GetY())
+			cnt++;
+	if (v1[0]->GetX() == v2[v1.size()-1]->GetX() && v1[0]->GetY() == v2[v1.size()-1]->GetY())
+		cnt++;
+	wstringstream str;
+	str << L"There are " << cnt << L" fully overlapping tiles";
+	AfxMessageBox(str.str().c_str());
 }

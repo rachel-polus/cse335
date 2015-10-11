@@ -10,7 +10,6 @@
 
 #include "Tile.h"
 
-
 /**
 * \brief A Road tile
 */
@@ -42,4 +41,3 @@ private:
     /// The current adjacency integer or -1 if none
     int mCurrentAdj = -1;
 };
-

@@ -19,21 +19,21 @@ class CBuildingCounter : public CTileVisitor
 {
 public:
 	/** Constructor */
-	CBuildingCounter();
+	CBuildingCounter(){}
 
 	/** Destructor */
-	virtual ~CBuildingCounter();
+	virtual ~CBuildingCounter(){}
 
 	/** Get the number of buildings
-	* \returns Number of buildings */
+	*\returns Number of buildings */
 	int GetNumBuildings() const { return mNumBuildings; }
 
 	/** Visit a CTileBuilding object
-	* \param building Building we are visiting */
+	*\param building Building we are visiting */
 	void VisitBuilding(CTileBuilding *building) { mNumBuildings++; }
 
 	/** Visit a Coalmine object
-	* \param coalmine Coalmine we are visiting*/
+	*\param coalmine Coalmine we are visiting */
 	void VisitCoalmine(CTileCoalmine *coalmine)
 	{
 		if (CoalmineController)
@@ -43,14 +43,14 @@ public:
 	}
 
 	/** Coalmine production getter
-	* \return double mCoalmineProduction */
+	*\return double mCoalmineProduction */
 	double getCoalmineProduction()const{ return mCoalmineProduction; }
 
 	/** Reset coalmine production*/
 	void ResetCoalmine(){ CoalmineController = true; }
 
 	/** Hit the mine
-	*\param coalmine Coalmine we are hitting*/
+	*\param coalmine Coalmine we are hitting */
 	void HitCoalmine(CTileCoalmine *coalmine){ coalmine->hit(); }
 private:
 	/// Buildings counter

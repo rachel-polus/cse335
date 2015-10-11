@@ -12,10 +12,12 @@
 #include <time.h>
 #include "Tile.h"
 
+/** Grass tile*/
 class CTileConstruction : public CTile
 {
 public:
-	/** Constructor*/
+	/** Constructor
+	*\param city The city this is a member of */
 	CTileConstruction(CCity *city);
 
 	/// \brief Default constructor (disabled)
@@ -60,4 +62,3 @@ private:
 	/// time counter for construction
 	double mDuration = 0;
 };
-

@@ -151,6 +151,12 @@ BEGIN
         MENUITEM "&Haul coal",                  ID_BUSINESSES_HAULCOAL
         MENUITEM "&Trump",                      ID_BUSINESSES_TRUMP
     END
+    POPUP "&Statistics"
+    BEGIN
+        MENUITEM "&Total tiles",                ID_STATISTICS_TOTALTILES
+        MENUITEM "&Partially overlapping count", ID_STATISTICS_PARTIALLYOVERLAPPINGCOUNT
+        MENUITEM "&Fully overlapping count",    ID_STATISTICS_FULLYOVERLAPPINGCOUNT
+    END
     POPUP "&Help"
     BEGIN
         MENUITEM "&About City...",              ID_APP_ABOUT

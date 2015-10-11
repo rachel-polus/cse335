@@ -33,7 +33,7 @@ void CTileConstruction::XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node)
 
 void CTileConstruction::Update(double elapsed)
 {
-	if (this->GetZoning()==CTile::Zonings::GRASS)
+	if (this->GetZoning() == CTile::Zonings::GRASS)
 	{
 		switch (mMode)
 		{
@@ -140,6 +140,4 @@ void CTileConstruction::Update(double elapsed)
 		}
 		}
 	}
-	else
-		CTile::Update(elapsed);
 }

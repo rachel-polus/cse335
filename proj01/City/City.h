@@ -27,7 +27,6 @@ public:
 	/// The spacing between grid locations
 	static const int GridSpacing = 32;
 
-
 	void Add(std::shared_ptr<CTile> item);
 	std::shared_ptr<CTile> HitTest(int x, int y);
 	void MoveToFront(std::shared_ptr<CTile> item);

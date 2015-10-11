@@ -10,7 +10,6 @@
 
 #include "Tile.h"
 
-
 /**
 * \brief A Building tile
 */

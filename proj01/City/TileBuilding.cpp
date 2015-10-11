@@ -32,7 +32,6 @@ std::shared_ptr<xmlnode::CXmlNode> CTileBuilding::XmlSave(const std::shared_ptr<
     return itemNode;
 }
 
-
 /**
 * brief Load the attributes for an item node.
 * \param node The Xml node we are loading the item from

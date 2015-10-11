@@ -19,42 +19,42 @@ class CTileConstruction;
 class CTileVisitor
 {
 public:
-	CTileVisitor();
-	virtual ~CTileVisitor();
+	CTileVisitor(){}
+	virtual ~CTileVisitor(){}
 
 	/** Visit a CTileBuilding object
-	* \param building Building we are visiting */
+	*\param building Building we are visiting */
 	virtual void VisitBuilding(CTileBuilding *building) {}
 
 	/** Visit a CTileCoalmine object
-	* \param coalmine Coal mine we are visiting */
+	*\param coalmine Coal mine we are visiting */
 	virtual void VisitCoalmine(CTileCoalmine *coalmine) {}
 
 	/** Visit a CTileLandscape object
-	* \param landscape Landscape tile we are visiting */
+	*\param landscape Landscape tile we are visiting */
 	virtual void VisitLandscape(CTileLandscape *landscape) {}
 
 	/** Visit a CTileRoad object
-	* \param road Road we are visiting */
+	*\param road Road we are visiting */
 	virtual void VisitRoad(CTileRoad *road) {}
 
 	/** Hitting a Coalmine object
-	* \param coalmine Coalmine tile we are hitting */
+	*\param coalmine Coalmine tile we are hitting */
 	virtual void HitCoalmine(CTileCoalmine *coalmine) {}
 
 	/** Hitting a CTileLandscape object
-	* \param landscape Landscape tile we are Hitting */
+	*\param landscape Landscape tile we are Hitting */
 	virtual void HitLandscape(CTileLandscape *landscape) {}
 
 	/** Hitting a CTileRoad object
-	* \param road Road we are Hitting */
+	*\param road Road we are Hitting */
 	virtual void HitRoad(CTileRoad *road) {}
 
 	/** Visit a grass object
-	* \param grass Grass we are visiting */
+	*\param grass Grass we are visiting */
 	virtual void VisitGrass(CTileConstruction *grass) {}
 
 	/** Hitting a grass object
-	* \param grass Grass we are hitting */
+	*\param grass Grass we are hitting */
 	virtual void HitGrass(CTileConstruction *grass) {}
 };
