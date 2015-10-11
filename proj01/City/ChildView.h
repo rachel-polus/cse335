@@ -119,3 +119,42 @@ public:
 	afx_msg void OnStatisticsPartiallyoverlappingcount();
 	afx_msg void OnStatisticsFullyoverlappingcount();
 };
+                                                                                   /*7MBMBL        
+                                                                                   BBMBM:        
+                                                                                  OBMBM,         
+                                                                                  BMBM.          
+                                                                                 OMBM,           
+                                                  :uBBBR               s0H;     .MBM.            
+                                               ;DBMBMBMB,             MBMBM     RBM,             
+                                            :MBMBMBMBBB:             MBMBB     .BM:              
+                                          7BMBH sBMBMB,            :MBBBM      BM:               
+                                        UMBM,   BBBMB:            2MBBBM       r.                
+                                      vBMO     BMBMBi            BBBBBM                  rEBMBR, 
+                                      uS      BMBMBr           :BMBMBM                .RBMBMBMBM 
+                                             BMBMB7           SBMBMBB.               FMB    :BMB 
+                                            BMBMBs          :MBMBMBB.               BMB       ,  
+                                           BMBMBF          EMBMBMBM,               FMBM          
+                                          MBBMBX         iBMBMBBBM:                MBBBS         
+                                         OMBMB0        .MBM:uBBBB;                 OMBMB:        
+                                        DMBMBM        RBB7 ;BMBM;                   BMBMB        
+                                       ZMBMBB       DBM1  ;BMBMr      r.            cBMBMS       
+                                      1MBMBM      WMBS   ;BBBMc     sBB:             RBMBD       
+                                     JMBMBM    :MBBK    ;BMBMc    JBMB.               BBMc       
+                                    rBBMBB   iBMBS     ,BMBMS  .RMBM:                 BMB        
+                                   ;MBBBMBZBMBMJ      .BBBMBZUBBMR.        .MBM:    .BMZ         
+                                  :MBMBMBMBMB;       .BMBBBMBMB7           RBBBMBFPMBB,          
+                                 .MBMBMBMBX.         BMBBBBM7               RBMBBBM0.            
+                                 MBMB:;:.             i;:                      .                 
+                                BBMO                                                             
+                               MBMO                                                              
+                              MBBB                                                               
+                             MBBB                                                                
+                            RBMB;                                                                
+                           WBMBR                                                                 
+                          EBBBM.                                                                 
+                         UBMBMB                                                                  
+                        2BMBBB3                                                                  
+                       uBMBMBZ                                                                   
+                      LBBBMB;                                                                    
+                      :GSr.
+					  */
