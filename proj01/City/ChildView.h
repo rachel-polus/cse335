@@ -20,6 +20,7 @@ class CChildView : public CWnd
 {
 // Construction
 public:
+	/** Constructor */
 	CChildView();
 
 // Attributes
@@ -34,7 +35,8 @@ public:
 
 // Implementation
 public:
-	virtual ~CChildView();
+	/** Destructor */
+	virtual ~CChildView(){}
 
 	// Generated message map functions
 protected:
