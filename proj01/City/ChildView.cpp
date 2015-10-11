@@ -247,7 +247,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	if (mNav)
 	{
-		mMouseX = point.x / mScale; mMouseY = point.y / mScale;
+		mMouseX = point.x; mMouseY = point.y;
 	}
 	else
 	{
@@ -273,6 +273,8 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		if (mScale<MaxScale)
 			mScale *= 2;
+		/*for (auto tile : mCity)
+			tile->SetLocation(tile->GetX() / mScale, tile->GetY() / mScale);*/
 	}
 	else if (point.x > mNavLeft && point.x < mNavLeft + Magnifier &&
 		(unsigned)point.y > EdgeMargin + mNavigation->GetHeight() / 2 &&
@@ -280,6 +282,8 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		if (mScale > MinScale)
 			mScale /= 2;
+		/*for (auto tile : mCity)
+			tile->SetLocation(tile->GetX() / mScale, tile->GetY() / mScale);*/
 	}
 	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop)
 	{
@@ -317,9 +321,9 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			if (nFlags & MK_LBUTTON)
 			{
 				for (auto tile : mCity)
-					tile->SetLocation(tile->GetX() + (point.x - mMouseX) / mScale,
-					tile->GetY() + (point.y - mMouseY) / mScale);
-				mMouseX = point.x / mScale; mMouseY = point.y / mScale;
+					tile->SetLocation((tile->GetX() + (point.x - mMouseX)) / mScale,
+					(tile->GetY() + (point.y - mMouseY)) / mScale);
+				mMouseX = point.x; mMouseY = point.y;
 			}
 		}
 		else
