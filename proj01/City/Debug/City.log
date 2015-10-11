@@ -1,0 +1,27 @@
+﻿Build started 10/11/2015 5:43:05 PM.
+     1>Project "C:\Users\polusrac\Documents\GitHub\cse335\proj01\City\City.vcxproj" on node 2 (Build target(s)).
+     1>ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /IDebug\ /nologo /fo"Debug\City.res" City.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\polusrac\Documents\GitHub\cse335\proj01\Debug\City.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\polusrac\Documents\GitHub\cse335\proj01\Debug\City.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\polusrac\Documents\GitHub\cse335\proj01\Debug\City.lib" /MACHINE:X86 Debug\City.res
+         Debug\BuildingCounter.obj
+         Debug\ChildView.obj
+         Debug\City.obj
+         Debug\CityApp.obj
+         Debug\MainFrm.obj
+         Debug\stdafx.obj
+         Debug\Tile.obj
+         Debug\TileBuilding.obj
+         Debug\TileCoalmine.obj
+         Debug\TileConstruction.obj
+         Debug\TileLandscape.obj
+         Debug\TilePropertiesDlg.obj
+         Debug\TileRoad.obj
+         Debug\TileVisitor.obj
+         Debug\XmlNode.obj
+         City.vcxproj -> C:\Users\polusrac\Documents\GitHub\cse335\proj01\Debug\City.exe
+     1>Done Building Project "C:\Users\polusrac\Documents\GitHub\cse335\proj01\City\City.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.93
