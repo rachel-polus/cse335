@@ -120,7 +120,7 @@ public:
 	afx_msg void OnStatisticsTotaltiles();
 	afx_msg void OnStatisticsPartiallyoverlappingcount();
 	afx_msg void OnStatisticsFullyoverlappingcount();
-};   
+};
                                                                                    /*7MBM:
                                                                                    BBMBM:
                                                                                   OBMBM,

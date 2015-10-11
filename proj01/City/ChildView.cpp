@@ -151,9 +151,7 @@ void CChildView::OnPaint()
         mFirstDraw = false;
         SetTimer(1, FrameDuration, nullptr);
 
-        /*
-        * Initialize the elapsed time system
-        */
+        /* Initialize the elapsed time system */
         LARGE_INTEGER time, freq;
         QueryPerformanceCounter(&time);
         QueryPerformanceFrequency(&freq);
@@ -162,9 +160,7 @@ void CChildView::OnPaint()
         mTimeFreq = double(freq.QuadPart);
     }
 
-    /*
-    * Compute the elapsed time since the last draw
-    */
+    /* Compute the elapsed time since the last draw */
     LARGE_INTEGER time;
     QueryPerformanceCounter(&time);
     long long diff = time.QuadPart - mLastTime;
@@ -202,10 +198,12 @@ void CChildView::OnPaint()
 	Pen pen1(Color::Green, 2);
 	Pen pen2(Color::Red, 2);
 	for (auto tile : mCity.GetZoning(mZoning))
+	{
 		if (tile->GetZoning() != CTile::Zonings::GRASS)
 			tile->DrawBorder(&graphics, &pen1);
 		else
 			tile->DrawBorder(&graphics, &pen2);
+	}
 }
 
 /**
@@ -279,22 +277,35 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (point.x > mNavLeft && point.x < mNavLeft + Magnifier &&
 		point.y > EdgeMargin && (unsigned)point.y < EdgeMargin + mNavigation->GetHeight() / 2)
+	{
 		if (mScale<MaxScale)
 			mScale *= 2;
+	}
 	else if (point.x > mNavLeft && point.x < mNavLeft + Magnifier &&
 		(unsigned)point.y > EdgeMargin + mNavigation->GetHeight() / 2 &&
 		(unsigned)point.y < EdgeMargin + mNavigation->GetHeight())
+	{
 		if (mScale > MinScale)
 			mScale /= 2;
-	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop)
-	{
+	}
+	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop){
 		mNav = !mNav;
 		for (auto tile : mCity)
 			tile->QuantizeLocation();
-		if (mNav)
+		if (mNav){
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
-		else
+			if (mNavigation->GetLastStatus() != Ok)
+			{
+				AfxMessageBox(L"Failed to open images/nav2.png");
+			}
+		}
+		else{
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
+			if (mNavigation->GetLastStatus() != Ok)
+			{
+				AfxMessageBox(L"Failed to open images/nav1.png");
+			}
+		}
 	}
 	else{
 		mGrabbedItem = mCity.HitTest(point.x, point.y);
@@ -317,6 +328,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	if (mGrabbedItem != nullptr)
 	{
 		if (mNav)
+		{
 			if (nFlags & MK_LBUTTON)
 			{
 				for (auto tile : mCity)
@@ -324,22 +336,30 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 					tile->GetY() + (point.y - mMouseY));
 				mMouseX = point.x; mMouseY = point.y;
 			}
+		}
 		else
 		{
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
 			if (nFlags & MK_LBUTTON)
+			{
 				mGrabbedItem->SetLocation(point.x, point.y);
+			}
 			else
 			{
 				// When the left button is released we release
 				// the item. If we release it on the trashcan,
 				// delete it.
 				if (point.x < mTrashcanRight && point.y > mTrashcanTop)
+				{
 					// We have clicked on the trash can
 					mCity.DeleteItem(mGrabbedItem);
+				}
 				else
+				{
 					mGrabbedItem->QuantizeLocation();
+				}
+
 				mCity.SortTiles();
 				mGrabbedItem = nullptr;
 			}
@@ -372,7 +392,9 @@ void CChildView::OnFileSaveas()
         L"City Files (*.city)|*.city|All Files (*.*)|*.*||");    // Filter
     if (dlg.DoModal() != IDOK)
         return;
+
     wstring filename = dlg.GetPathName();
+
     mCity.Save(filename);
 }
 
@@ -389,6 +411,7 @@ void CChildView::OnFileOpen()
         L"City Files (*.city)|*.city|All Files (*.*)|*.*||");    // Filter
     if (dlg.DoModal() != IDOK)
         return;
+
     wstring filename = dlg.GetPathName();
     mCity.Load(filename);
     Invalidate();
@@ -406,7 +429,6 @@ void CChildView::AddBuilding(const std::wstring &file)
     mCity.Add(tile);
     Invalidate();
 }
-
 
 /**
 * \brief Add a CTileLandscaping tile to the drawing.
@@ -427,8 +449,6 @@ void CChildView::AddLandscape(const std::wstring &file)
  * I'm not going to document these menu handlers, since what they 
  * so is obvious. I'm using a Doxygen feature to ignore the functions
  */
-
-
 void CChildView::OnBuildingsFarmhouse()
 {
     AddBuilding(L"farm0.png");
@@ -532,6 +552,7 @@ void CChildView::OnTileNonetile()
 void CChildView::OnUpdateTileNonetile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::NONE);
+	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -545,6 +566,7 @@ void CChildView::OnTileResidentialtile()
 void CChildView::OnUpdateTileResidentialtile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::RESIDENTIAL);
+	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -558,6 +580,7 @@ void CChildView::OnTileIndustrialtile()
 void CChildView::OnUpdateTileIndustrialtile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::INDUSTRIAL);
+	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -571,6 +594,7 @@ void CChildView::OnTileAgriculturatile()
 void CChildView::OnUpdateTileAgriculturatile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::AGRICULTURAL);
+	pCmdUI->Enable(true);
 }
 
 /** Menu handler that counts the number of builds */
@@ -610,6 +634,7 @@ void CChildView::OnBusinessesTrump()
 void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mCity.TrumpActive());
+	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -623,6 +648,7 @@ void CChildView::OnTileGrass()
 void CChildView::OnUpdateTileGrass(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::GRASS);
+	pCmdUI->Enable(true);
 }
 
 /** Menu handler for total tiles count */
