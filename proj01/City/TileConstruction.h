@@ -12,7 +12,7 @@
 #include <time.h>
 #include "Tile.h"
 
-/** Grass tile*/
+/** Grass tile */
 class CTileConstruction : public CTile
 {
 public:

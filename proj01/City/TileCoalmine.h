@@ -11,9 +11,7 @@
 #include "Tile.h"
 
 class CBuildingCounter;
-/**
-* \brief A Landscape tile
-*/
+/** Coalmine tile */
 class CTileCoalmine : public CTile
 {
 public:
