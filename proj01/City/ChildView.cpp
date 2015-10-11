@@ -692,47 +692,31 @@ void CChildView::OnStatisticsPartiallyoverlappingcount()
 		v1.push_back(tile);
 	v2 = v1;
 	for (unsigned i = 0; i < v1.size() - 1; i++)
-		if ((v1[i]->GetX() + w == v2[i + 1]->GetX() &&
-			v1[i]->GetX() == v2[i + 1]->GetX() - w &&
+		if (((v1[i]->GetX() + w == v2[i + 1]->GetX() ||
+			v1[i]->GetX() - w == v2[i + 1]->GetX()) &&
 			v1[i]->GetY() == v2[i + 1]->GetY()) ||
-			(v1[i]->GetX() - w == v2[i + 1]->GetX() &&
-			v1[i]->GetX() == v2[i + 1]->GetX() + w &&
-			v1[i]->GetY() == v2[i + 1]->GetY()) ||
-			(v1[i]->GetX() + h == v2[i + 1]->GetX() &&
-			v1[i]->GetY() == v2[i + 1]->GetY()) ||
-			(v1[i]->GetX() == v2[i + 1]->GetX() + h &&
-			v1[i]->GetY() == v2[i + 1]->GetY()) ||
-			(v1[i]->GetX() == v2[i + 1]->GetX() + h &&
-			v1[i]->GetY() == v2[i + 1]->GetY()) ||
-			(v1[i]->GetX() + h == v2[i + 1]->GetX() &&
-			v1[i]->GetY() == v2[i + 1]->GetY()) ||
-			(v1[i]->GetY() + h == v2[i + 1]->GetY() &&
-			v1[i]->GetY() == v2[i + 1]->GetY() - h &&
+			((v1[i]->GetY() + h == v2[i + 1]->GetY() ||
+			v1[i]->GetY() - h == v2[i + 1]->GetY()) &&
 			v1[i]->GetX() == v2[i + 1]->GetX()) ||
-			(v1[i]->GetY() - h == v2[i + 1]->GetY() &&
-			v1[i]->GetY() == v2[i + 1]->GetY() + h) &&
-			v1[i]->GetX() == v2[i + 1]->GetX())
+			((v1[i]->GetX() + h == v2[i + 1]->GetX() ||
+			v1[i]->GetX() == v2[i + 1]->GetX() + h) &&
+			v1[i]->GetY() == v2[i + 1]->GetY()) ||
+			((v1[i]->GetX() + w == v2[i + 1]->GetX() - h ||
+			v1[i]->GetX() - h == v2[i + 1]->GetX() + w) &&
+			v1[i]->GetY() == v2[i + 1]->GetY()))
 			cnt++;
-	if ((v1[0]->GetX() + w == v2[v1.size() - 1]->GetX() &&
-		v1[0]->GetX() == v2[v1.size() - 1]->GetX() - w &&
+	if (((v1[0]->GetX() + w == v2[v1.size() - 1]->GetX() ||
+		v1[0]->GetX() - w == v2[v1.size() - 1]->GetX()) &&
 		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
-		(v1[0]->GetX() - w == v2[v1.size() - 1]->GetX() &&
-		v1[0]->GetX() == v2[v1.size() - 1]->GetX() + w &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
-		(v1[0]->GetX() + h == v2[v1.size() - 1]->GetX() &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
-		(v1[0]->GetX() == v2[v1.size() - 1]->GetX() + h &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
-		(v1[0]->GetX() == v2[v1.size() - 1]->GetX() + h &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
-		(v1[0]->GetX() + h == v2[v1.size() - 1]->GetX() &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
-		(v1[0]->GetY() + h == v2[v1.size() - 1]->GetY() &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY() - h &&
+		((v1[0]->GetY() + h == v2[v1.size() - 1]->GetY() ||
+		v1[0]->GetY() - h == v2[v1.size() - 1]->GetY()) &&
 		v1[0]->GetX() == v2[v1.size() - 1]->GetX()) ||
-		(v1[0]->GetY() - h == v2[v1.size() - 1]->GetY() &&
-		v1[0]->GetY() == v2[v1.size() - 1]->GetY() + h) &&
-		v1[0]->GetX() == v2[v1.size() - 1]->GetX())
+		((v1[0]->GetX() + h == v2[v1.size() - 1]->GetX() ||
+		v1[0]->GetX() == v2[v1.size() - 1]->GetX() + h) &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()) ||
+		((v1[0]->GetX() + w == v2[v1.size() - 1]->GetX() - h ||
+		v1[0]->GetX() - h == v2[v1.size() - 1]->GetX() + w) &&
+		v1[0]->GetY() == v2[v1.size() - 1]->GetY()))
 		cnt++;
 	wstringstream str;
 	str << L"There are " << cnt << L" partially overlapping tiles";
