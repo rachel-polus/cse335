@@ -24,7 +24,7 @@ public:
     /// \brief Copy constructor (disabled)
     CTileLandscape(const CTileLandscape &) = delete;
 
-    ~CTileLandscape();
+	virtual ~CTileLandscape();
 
     virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
     virtual void XmlLoad(const std::shared_ptr<xmlnode::CXmlNode> &node);

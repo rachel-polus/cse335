@@ -48,5 +48,3 @@ private:
 
     CImageList m_imagelist;
 };
-
-

@@ -111,6 +111,4 @@ public:
 	{
 		return this;
 	}
-};
-
-/// \endcond
+};/// \endcond

@@ -24,7 +24,7 @@ public:
     /// \brief Copy constructor (disabled)
     CTileRoad(const CTileRoad &) = delete;
 
-    ~CTileRoad();
+	virtual ~CTileRoad();
 
     virtual std::shared_ptr<xmlnode::CXmlNode> XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
 

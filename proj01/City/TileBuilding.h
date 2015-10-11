@@ -16,7 +16,9 @@
 class CTileBuilding : public CTile
 {
 public:
-    CTileBuilding(CCity *city);
+	/** Constructor
+	* \param city The city this is a member of */
+	CTileBuilding(CCity *city) : CTile(city){}
 
     /// \brief Default constructor (disabled)
     CTileBuilding() = delete;
@@ -24,7 +26,8 @@ public:
     /// \brief Copy constructor (disabled)
     CTileBuilding(const CTileBuilding &) = delete;
 
-    ~CTileBuilding();
+	/** Destructor */
+	virtual ~CTileBuilding(){}
 
     virtual std::shared_ptr<xmlnode::CXmlNode>
 		XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;

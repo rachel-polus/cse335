@@ -41,7 +41,8 @@ public:
     /// \brief Copy constructor (disabled)
     CTile(const CTile &) = delete;
 
-    virtual ~CTile();
+	/** Destructor */
+	virtual ~CTile(){}
 
     void SetImage(const std::wstring &file);
 
@@ -106,7 +107,6 @@ public:
     */
     std::shared_ptr<CTile> GetAdjacent(int dx, int dy);
 
-
     /** \brief The tile zoning
     * \returns Zoning value */
     CTile::Zonings GetZoning() { return mZoning; }
@@ -129,15 +129,16 @@ public:
 	*\param elapsed The time since the last update */
 	void Construction(double elapsed);
 protected:
-    CTile(CCity *city);
-
+	/** Constructor
+	* \param city The city this item is a member of */
+	CTile(CCity *city){}
 private:
     /// The city this item is contained in
-    CCity   *mCity;
+    CCity *mCity;
 
     // Item location in the aquarium
-    int   mX = 0;     ///< X location for the center of the item
-    int   mY = 0;     ///< Y location for the center of the item
+    int mX = 0;     ///< X location for the center of the item
+    int mY = 0;     ///< Y location for the center of the item
 
     /// The image of this tile
     std::unique_ptr<Gdiplus::Bitmap> mItemImage;

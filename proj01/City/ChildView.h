@@ -46,7 +46,7 @@ private:
     void AddLandscape(const std::wstring &file);
 
     /// The city
-    CCity   mCity;
+    CCity mCity;
 
     /// True until the first time we draw
     bool mFirstDraw = true;

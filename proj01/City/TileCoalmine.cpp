@@ -10,9 +10,6 @@
 using namespace std;
 using namespace Gdiplus;
 
-/// Image when the coalmine production is empty
-const wstring EmptyImage = L"coalmine-empty.png";
-
 /// Image when the coalmine production is low
 const wstring LowProductionImage = L"coalmine-low.png";
 
@@ -42,21 +39,6 @@ const double FullProduction = 4;
 
 /// Image when the coalmine is destroyed
 const wstring DestroyedImage = L"burnt_land.png";
-
-/** Constructor
-* \param city The city this is a member of
-*/
-CTileCoalmine::CTileCoalmine(CCity *city) : CTile(city)
-{
-    SetImage(EmptyImage);
-}
-
-/**
-* \brief Destructor
-*/
-CTileCoalmine::~CTileCoalmine()
-{
-}
 
 /** \brief Save this item to an XML node
 * \param node The node we are going to be a child of
@@ -122,7 +104,7 @@ void CTileCoalmine::ResetCoalmine()
 	if (hits < 2)
 	{
 		mProduction = 0;
-		SetImage(EmptyImage);
+		SetImage(L"coalmine-empty.png");
 	}
 }
 

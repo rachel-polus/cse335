@@ -41,5 +41,4 @@ private:
     /// GDI+ token
     ULONG_PTR gdiplusToken;
 };
-
 extern CCityApp theApp;

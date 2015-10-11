@@ -4,20 +4,6 @@
 using namespace std;
 using namespace Gdiplus;
 
-/** Constructor
-* \param city The city this is a member of
-*/
-CTileBuilding::CTileBuilding(CCity *city) : CTile(city)
-{
-}
-
-/**
-* \brief Destructor
-*/
-CTileBuilding::~CTileBuilding()
-{
-}
-
 /** \brief Save this item to an XML node
 * \param node The node we are going to be a child of
 * \returns Allocated node

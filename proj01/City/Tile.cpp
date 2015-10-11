@@ -33,20 +33,6 @@ const std::wstring CTile::ImagesDirectory = L"images/";
  */
 const int InsideTolerance = 64;
 
-/** \brief Constructor
- * \param city The city this item is a member of
- */
-CTile::CTile(CCity *city) : mCity(city)
-{
-}
-
-/**
-* \brief Destructor
-*/
-CTile::~CTile()
-{
-}
-
 /**
  * \brief Set the image file to draw
  * \param file The base filename. Blank files are allowed

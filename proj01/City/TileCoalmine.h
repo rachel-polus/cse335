@@ -17,7 +17,9 @@ class CBuildingCounter;
 class CTileCoalmine : public CTile
 {
 public:
-    CTileCoalmine(CCity *city);
+	/** Constructor
+	* \param city The city this is a member of */
+	CTileCoalmine(CCity *city) : CTile(city){ SetImage(L"coalmine-empty.png"); }
 
     /// \brief Default constructor (disabled)
     CTileCoalmine() = delete;
@@ -25,7 +27,8 @@ public:
     /// \brief Copy constructor (disabled)
     CTileCoalmine(const CTileCoalmine &) = delete;
 
-    ~CTileCoalmine();
+	/** Destructor */
+	virtual ~CTileCoalmine(){}
 
     virtual std::shared_ptr<xmlnode::CXmlNode>
 		XmlSave(const std::shared_ptr<xmlnode::CXmlNode> &node) override;
