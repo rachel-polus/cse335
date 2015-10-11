@@ -56,7 +56,6 @@ CChildView::CChildView()
     {
         AfxMessageBox(L"Failed to open images/trashcan.png");
     }
-
 	// Load the navigation image
 	mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
 	if (mNavigation->GetLastStatus() != Ok)
@@ -122,12 +121,10 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	if (!CWnd::PreCreateWindow(cs))
 		return FALSE;
-
 	cs.dwExStyle |= WS_EX_CLIENTEDGE;
 	cs.style &= ~WS_BORDER;
 	cs.lpszClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW|CS_DBLCLKS, 
 		::LoadCursor(NULL, IDC_ARROW), reinterpret_cast<HBRUSH>(COLOR_WINDOW+1), NULL);
-
 	return TRUE;
 }
 
@@ -142,10 +139,8 @@ void CChildView::OnPaint()
 {
     CPaintDC paintDC(this);     // device context for painting
     CDoubleBufferDC dc(&paintDC); // device context for painting
-
     Graphics graphics(dc.m_hDC);
     graphics.Clear(Color(0, 0, 0));
-
     if (mFirstDraw)
     {
         mFirstDraw = false;
@@ -292,20 +287,10 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 		mNav = !mNav;
 		for (auto tile : mCity)
 			tile->QuantizeLocation();
-		if (mNav){
+		if (mNav)
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav2.png"));
-			if (mNavigation->GetLastStatus() != Ok)
-			{
-				AfxMessageBox(L"Failed to open images/nav2.png");
-			}
-		}
-		else{
+		else
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
-			if (mNavigation->GetLastStatus() != Ok)
-			{
-				AfxMessageBox(L"Failed to open images/nav1.png");
-			}
-		}
 	}
 	else{
 		mGrabbedItem = mCity.HitTest(point.x, point.y);
@@ -342,28 +327,21 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
 			if (nFlags & MK_LBUTTON)
-			{
 				mGrabbedItem->SetLocation(point.x, point.y);
-			}
 			else
 			{
 				// When the left button is released we release
 				// the item. If we release it on the trashcan,
 				// delete it.
 				if (point.x < mTrashcanRight && point.y > mTrashcanTop)
-				{
 					// We have clicked on the trash can
 					mCity.DeleteItem(mGrabbedItem);
-				}
 				else
-				{
 					mGrabbedItem->QuantizeLocation();
-				}
 
 				mCity.SortTiles();
 				mGrabbedItem = nullptr;
 			}
-
 			// Force the screen to redraw
 			Invalidate();
 		}
@@ -392,9 +370,7 @@ void CChildView::OnFileSaveas()
         L"City Files (*.city)|*.city|All Files (*.*)|*.*||");    // Filter
     if (dlg.DoModal() != IDOK)
         return;
-
     wstring filename = dlg.GetPathName();
-
     mCity.Save(filename);
 }
 
@@ -411,7 +387,6 @@ void CChildView::OnFileOpen()
         L"City Files (*.city)|*.city|All Files (*.*)|*.*||");    // Filter
     if (dlg.DoModal() != IDOK)
         return;
-
     wstring filename = dlg.GetPathName();
     mCity.Load(filename);
     Invalidate();
@@ -552,7 +527,6 @@ void CChildView::OnTileNonetile()
 void CChildView::OnUpdateTileNonetile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::NONE);
-	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -566,7 +540,6 @@ void CChildView::OnTileResidentialtile()
 void CChildView::OnUpdateTileResidentialtile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::RESIDENTIAL);
-	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -580,7 +553,6 @@ void CChildView::OnTileIndustrialtile()
 void CChildView::OnUpdateTileIndustrialtile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::INDUSTRIAL);
-	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -594,7 +566,6 @@ void CChildView::OnTileAgriculturatile()
 void CChildView::OnUpdateTileAgriculturatile(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::AGRICULTURAL);
-	pCmdUI->Enable(true);
 }
 
 /** Menu handler that counts the number of builds */
@@ -634,7 +605,6 @@ void CChildView::OnBusinessesTrump()
 void CChildView::OnUpdateBusinessesTrump(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mCity.TrumpActive());
-	pCmdUI->Enable(true);
 }
 
 /** Menu handler for tile */
@@ -648,7 +618,6 @@ void CChildView::OnTileGrass()
 void CChildView::OnUpdateTileGrass(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(mZoning == CTile::Zonings::GRASS);
-	pCmdUI->Enable(true);
 }
 
 /** Menu handler for total tiles count */
