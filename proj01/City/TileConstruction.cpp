@@ -53,10 +53,8 @@ void CTileConstruction::Update(double elapsed)
 				{
 				case 0:
 				{
-					SetImage(L"oremine1.png");
 					mAscending = !mAscending;
 					mCount++;
-					break;
 				}
 				case 1:
 					SetImage(L"oremine1.png");
@@ -92,7 +90,8 @@ void CTileConstruction::Update(double elapsed)
 		case Clearing:
 		{
 			mDuration += elapsed;
-			if (mDuration > 2){
+			if (mDuration > 2)
+			{
 				mCount++;
 				mDuration = 0;
 				switch (mCount)
@@ -132,11 +131,9 @@ void CTileConstruction::Update(double elapsed)
 						mMode = Stadium;
 						break;
 					}
-					break;
 				}
 				}
 			}
-			break;
 		}
 		}
 	}
