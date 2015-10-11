@@ -26,7 +26,7 @@ public:
         RESIDENTIAL=1,      ///< Residential zoning
         INDUSTRIAL=2,       ///< Industrial zoning
         AGRICULTURAL=3,     ///< Agricultural zoning
-		GRASS=4             ///< Potential construction zoning
+		GRASS=4             ///< Potential construction zoning, labeled construction
 	};
 
     /** The directory were the images are stored */
