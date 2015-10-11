@@ -257,8 +257,8 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			tile->SetLocation(point.x, point.y);
 			tile->SetZoning(CTile::Zonings::GRASS);
 			mCity.Add(tile);
+			tile->QuantizeLocation();
 		}
-		OnLButtonDown(nFlags, point);
         Invalidate();
     }
 
