@@ -193,12 +193,10 @@ void CChildView::OnPaint()
 	Pen pen1(Color::Green, 2);
 	Pen pen2(Color::Red, 2);
 	for (auto tile : mCity.GetZoning(mZoning))
-	{
 		if (tile->GetZoning() != CTile::Zonings::GRASS)
 			tile->DrawBorder(&graphics, &pen1);
 		else
 			tile->DrawBorder(&graphics, &pen2);
-	}
 }
 
 /**
@@ -222,7 +220,7 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 */
 void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-    auto tile = mCity.HitTest(point.x, point.y);
+	auto tile = mCity.HitTest(point.x / mScale, point.y / mScale);
     if (tile != nullptr) 
     {
         // We double-clicked on a tile
@@ -232,7 +230,7 @@ void CChildView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			mCity.DeleteItem(tile);
 			auto tile = make_shared<CTileConstruction>(&mCity);
 			tile->SetImage(L"grass.png");
-			tile->SetLocation(point.x, point.y);
+			tile->SetLocation(point.x / mScale, point.y / mScale);
 			tile->SetZoning(CTile::Zonings::GRASS);
 			mCity.Add(tile);
 			tile->QuantizeLocation();
@@ -253,7 +251,7 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		mGrabbedItem = mCity.HitTest(point.x, point.y);
+		mGrabbedItem = mCity.HitTest(point.x / mScale, point.y / mScale);
 		if (mGrabbedItem != nullptr)
 		{
 			// We grabbed something
@@ -275,6 +273,8 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		if (mScale<MaxScale)
 			mScale *= 2;
+		/*for (auto tile : mCity)
+			tile->SetLocation(tile->GetX() / mScale, tile->GetY() / mScale);*/
 	}
 	else if (point.x > mNavLeft && point.x < mNavLeft + Magnifier &&
 		(unsigned)point.y > EdgeMargin + mNavigation->GetHeight() / 2 &&
@@ -282,8 +282,11 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		if (mScale > MinScale)
 			mScale /= 2;
+		/*for (auto tile : mCity)
+			tile->SetLocation(tile->GetX() / mScale, tile->GetY() / mScale);*/
 	}
-	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop){
+	else if (point.x > mNavLeft + Magnifier && point.y < mNavTop)
+	{
 		mNav = !mNav;
 		for (auto tile : mCity)
 			tile->QuantizeLocation();
@@ -292,8 +295,9 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 		else
 			mNavigation = unique_ptr<Bitmap>(Bitmap::FromFile(L"images/nav1.png"));
 	}
-	else{
-		mGrabbedItem = mCity.HitTest(point.x, point.y);
+	else
+	{
+		mGrabbedItem = mCity.HitTest(point.x / mScale, point.y / mScale);
 		if (mGrabbedItem != nullptr && mCity.TrumpActive())
 		{
 			CBuildingCounter agent;
@@ -317,8 +321,8 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			if (nFlags & MK_LBUTTON)
 			{
 				for (auto tile : mCity)
-					tile->SetLocation(tile->GetX() + (point.x - mMouseX),
-					tile->GetY() + (point.y - mMouseY));
+					tile->SetLocation((tile->GetX() + (point.x - mMouseX)) / mScale,
+					(tile->GetY() + (point.y - mMouseY)) / mScale);
 				mMouseX = point.x; mMouseY = point.y;
 			}
 		}
@@ -327,7 +331,7 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			// If an item is being moved, we only continue to 
 			// move it while the left button is down.
 			if (nFlags & MK_LBUTTON)
-				mGrabbedItem->SetLocation(point.x, point.y);
+				mGrabbedItem->SetLocation(point.x / mScale, point.y / mScale);
 			else
 			{
 				// When the left button is released we release
@@ -429,24 +433,20 @@ void CChildView::OnBuildingsFarmhouse()
     AddBuilding(L"farm0.png");
 }
 
-
 void CChildView::OnLandscapingGrass()
 {
     AddLandscape(L"grass.png");
 }
-
 
 void CChildView::OnLandscapingSpartystatue()
 {
     AddLandscape(L"sparty.png");
 }
 
-
 void CChildView::OnBuildingsBlacksmithshop()
 {
     AddBuilding(L"blacksmith.png");
 }
-
 
 void CChildView::OnLandscapingTallgrass()
 {
